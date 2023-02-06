@@ -1,7 +1,7 @@
 import math
 
-from algo.euclides import inverse_modulo
-from utils.prime import is_prime
+from algo.extended_euclides_algo import inverse_modulo
+from utils.prime_utils import is_prime
 
 
 class PrimeFieldElement:
