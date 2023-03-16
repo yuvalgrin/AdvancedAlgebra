@@ -40,7 +40,9 @@ class TestFiniteFieldElement(unittest.TestCase):
 
     def test_repr(self):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])
-        self.assertEqual(repr(x), "FiniteFieldElement(FiniteField(5, [2, 1, 0, 1]), [1, 2, 3])")
+        self.assertEqual(
+            repr(x), "FiniteFieldElement(FiniteField(5, [2, 1, 0, 1]), [1, 2, 3])"
+        )
 
     def test_equality(self):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])

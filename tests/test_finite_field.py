@@ -4,7 +4,6 @@ from models.finite_field import FiniteField
 
 
 class TestFiniteField(unittest.TestCase):
-
     def test_finite_field_initialization(self):
         # Test initialization with prime and irreducible polynomial
         finite_field = FiniteField(3, [2, 2, 1])

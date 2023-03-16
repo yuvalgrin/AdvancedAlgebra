@@ -8,7 +8,7 @@ class FiniteField:
         if not is_prime(p):
             raise ValueError(f"p ({p}) must be prime")
         if len(function) <= 3:
-            print('Should check for irreducible')
+            print("Should check for irreducible")
         self.p = p
         self.f = function
 
@@ -16,4 +16,4 @@ class FiniteField:
         return self.f == other.f and self.p == other.p
 
     def __repr__(self):
-        return f'FiniteField({self.p}, {self.f})'
+        return f"FiniteField({self.p}, {self.f})"

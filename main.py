@@ -1,6 +1,6 @@
 def main():
-    print('Benjamin, Ron, and Yuval')
+    print("Benjamin, Ron, and Yuval")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
