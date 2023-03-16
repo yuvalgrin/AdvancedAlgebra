@@ -1,26 +1,27 @@
-import np as np
+import numpy as np
 
 from models.finite_field import FiniteField
 
 from typing import List
 
+from models.prime_field_element import PrimeFieldElement
+
 
 class FiniteFieldElement:
     def __init__(self, finite_field: FiniteField, coeffs: List[int]):
         self.field = finite_field
-        self.coeffs = coeffs
-        self.n = 1
+        self.coeffs = [PrimeFieldElement(coeff, finite_field.p) for coeff in coeffs]
 
     def __add__(self, other):
         if self.field != other.field:
             raise ValueError("Cannot add elements from different finite fields")
-        new_coeffs = [(a + b) % self.field.p for a, b in zip(self.coeffs, other.coeffs)]
+        new_coeffs = [a + b for a, b in zip(self.coeffs, other.coeffs)]
         return FiniteFieldElement(self.field, new_coeffs)
 
     def __sub__(self, other):
         if self.field != other.field:
             raise ValueError("Cannot subtract elements from different finite fields")
-        new_coeffs = [(a - b) % self.field.p for a, b in zip(self.coeffs, other.coeffs)]
+        new_coeffs = [a - b for a, b in zip(self.coeffs, other.coeffs)]
         return FiniteFieldElement(self.field, new_coeffs)
 
     def __mul__(self, other):
