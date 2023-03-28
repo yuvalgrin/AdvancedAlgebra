@@ -7,6 +7,7 @@ from numpy.linalg import inv
 from numpy.linalg import det
 
 from algo.polynom_utils import polynom_modulu, polynom_mul
+from models.prime_field_element import PrimeFieldElement
 
 
 def create_matrix(polynom, reduction_polynom):
@@ -21,18 +22,18 @@ def create_matrix(polynom, reduction_polynom):
 
 
 def exponent(matrix, n):
-    identity = np.identity(len(matrix))
+    value = np.identity(len(matrix))
     mat = deepcopy(matrix)
     while n != 0:
         if n % 2 == 1:
-            identity = np.matmul(mat, identity)
+            value = np.matmul(mat, value)
         mat = np.matmul(mat, mat)
         n = n >> 1
-    return identity
+    return value
 
 
 def inverse_matrix(matrix, p):
-    inverse_mat = det(matrix) * inv(matrix)
-    determinant = det(matrix)
-    inverse_mat = [[x / determinant for x in y] for y in inverse_mat]
-    return inverse_mat
+    inverse = ((det(matrix)*inv(matrix))*1.01).astype(int)
+    d_inv = PrimeFieldElement(1, p) / PrimeFieldElement(det(matrix.astype(int)*1.01).astype(int), p)
+    inverse = [[PrimeFieldElement(x, p) * d_inv for x in y] for y in inverse]
+    return inverse

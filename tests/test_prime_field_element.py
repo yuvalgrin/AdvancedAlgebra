@@ -41,11 +41,15 @@ class TestPrimeFieldElement(unittest.TestCase):
     def test_division(self):
         a = PrimeFieldElement(2, 5)
         b = PrimeFieldElement(3, 5)
-        self.assertEqual(a / b, PrimeFieldElement(3, 5))
+        self.assertEqual(a / b, PrimeFieldElement(4, 5))
 
         a = PrimeFieldElement(7, 5)
         b = PrimeFieldElement(8, 5)
-        self.assertEqual(a / b, PrimeFieldElement(3, 5))
+        self.assertEqual(a / b, PrimeFieldElement(4, 5))
+
+        a = PrimeFieldElement(17, 313)
+        b = PrimeFieldElement(31, 313)
+        self.assertEqual(a / b, PrimeFieldElement(152, 313))
 
     def test_division_with_no_inverse(self):
         a = PrimeFieldElement(2, 5)
@@ -62,4 +66,4 @@ class TestPrimeFieldElement(unittest.TestCase):
     def test_inversion_modulo(self):
         a = PrimeFieldElement(2, 5)
         b = PrimeFieldElement(4, 5)
-        self.assertEqual(a / b, PrimeFieldElement(2, 5))
+        self.assertEqual(a / b, PrimeFieldElement(3, 5))

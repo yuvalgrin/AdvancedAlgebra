@@ -8,11 +8,11 @@ def polynom_mul(pol1, pol2):
 
 def polynom_plus(pol1, pol2):
     new_pol = [0 for _ in range(max(len(pol1), len(pol2)))]
-    for idx, idx in enumerate(pol2[-1::-1]):
-        new_pol[-(idx + 1)] += idx
+    for idx, value in enumerate(pol2[-1::-1]):
+        new_pol[-(idx + 1)] += value
     print(new_pol)
-    for idx, idx in enumerate(pol1[-1::-1]):
-        new_pol[-(idx + 1)] += idx
+    for idx, value in enumerate(pol1[-1::-1]):
+        new_pol[-(idx + 1)] += value
     return new_pol
 
 
