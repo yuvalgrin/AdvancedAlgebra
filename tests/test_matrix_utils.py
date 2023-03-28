@@ -1,28 +1,46 @@
 import unittest
 
-from algo.matrix_convertion import create_matrix, exponent, inverse_matrix
-from models.matrix_convertion import get_matrix
+import numpy as np
+from models.matrix_convertion import get_matrix, exp, inverse_matrix
 
 
 class TestMatrixConversion(unittest.TestCase):
     def test_matrix_creation(self):
-        matrix1 = create_matrix([2, 3], [1, 0, 1])
-        matrix2 = create_matrix([4, 1], [1, 0, 1])
-        matrix3 = create_matrix([1, 2, 2], [1, 1, 0, 1])
-        matrix3 = get_matrix([1, 2, 2], [1, 1, 0, 1])
-        self.assertEqual(matrix1, [0])
-        self.assertEqual(matrix2, [0])
-        self.assertEqual(matrix3, [0])
+        x = get_matrix([1,1],[1,0,1])
+        self.assertTrue(np.array_equal(x, [[1,-1],[1,1]]))
 
-    def test_exponent(self):
-        matrix = create_matrix([2, 3], [1, 0, 1])
-        self.assertEqual(exponent(matrix.astype(int), 13), [0])
+        w = get_matrix([0,1,0],[1,1,0,1])
+        z = get_matrix([1, 0, 0], [1, 1, 0, 1])
+        self.assertTrue(np.array_equal(np.matmul(w,w), z))
+
+    def test_exponent_positive(self):
+        w = get_matrix([0,1,0],[1,1,0,1])
+        z = get_matrix([1, 0, 0], [1, 1, 0, 1])
+        self.assertTrue(np.array_equal(exp(w, 2, 61), z))
+
+    def test_exponent_negative(self):
+        w = get_matrix([0,1,0],[1,1,0,1])
+        exponent_pos = exp(w, 1, 7)
+        exponent_neg = exp(w, -1, 7)
+        mult = np.matmul(exponent_neg, exponent_pos)
+        self.assertTrue(np.array_equal(mult, w))
 
     def test_inverse_matrix(self):
-        matrix = create_matrix([2, 3], [1, 0, 1])
-        inverse = inverse_matrix(matrix, 5)
-        self.assertEqual(inverse, [0])
+        w = get_matrix([0, 1, 0], [1, 1, 0, 1])
+        p = 5
+        inv_w = inverse_matrix(w, p)
+        inv_w_int = _cast_prime_field_matrix_to_positive_int(inv_w)
+        double_inv_w = inverse_matrix(inv_w_int, p)
+        double_inv_w_int = _cast_prime_field_matrix_to_positive_int(double_inv_w)
+        self.assertTrue(np.array_equal(double_inv_w_int, _cast_int_matrix_to_positive_int(w, p)))
 
+
+def _cast_int_matrix_to_positive_int(matrix, p):
+    return np.array([[val if val >= 0 else val + p for val in arr] for arr in matrix])
+
+
+def _cast_prime_field_matrix_to_positive_int(matrix):
+    return np.array([[val.a if val.a >= 0 else val.a + val.p for val in arr] for arr in matrix])
 
 # x = get_matrix([1,2,2],[1,1,0,1])
 # z = get_matrix([0,1,0],[1,1,0,1])

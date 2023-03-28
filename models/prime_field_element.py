@@ -30,7 +30,7 @@ class PrimeFieldElement:
             raise ValueError("Cannot divide elements from different fields")
         if math.gcd(other.a, self.p) != 1:
             raise ValueError("Cannot divide by elements without an inverse")
-        return self * PrimeFieldElement(pow(other.a, -1, self.p), self.p)
+        return self * PrimeFieldElement(pow(int(other.a), -1, int(self.p)), self.p)
 
     def __repr__(self):
         return f"{self.a} (mod {self.p})"

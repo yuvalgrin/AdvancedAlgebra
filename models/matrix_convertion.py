@@ -1,5 +1,3 @@
-
-
 # important note: the less significant bit in the implementaion of the polynoms is the most right one
 # e.g: [1,0,1,2] = x^3 + x + 2
 # x^16+x^15/x^2+x+1 = x^14(-x-1) + x^15 = -x^15 -x^14 +x^15 = -x^14
@@ -14,10 +12,10 @@ from models.prime_field_element import PrimeFieldElement
 
 
 def polynom_mul(pol1, pol2):
-    new_pol = [0 for _ in range(len(pol1) + len(pol2) - 1)]
-    for idx1, idx1 in enumerate(pol1):
-        for idx2, idx2 in enumerate(pol2):
-            new_pol[idx1 + idx2] += idx1 * idx2
+    new_pol = [0 for i in range(len(pol1) + len(pol2) - 1)]
+    for idx1, i1 in enumerate(pol1):
+        for idx2, i2 in enumerate(pol2):
+            new_pol[idx1 + idx2] += i1 * i2
     return new_pol
 
 
@@ -78,9 +76,14 @@ def get_matrix(polynom, reduction_polynom):
     ]
     return np.int_(almost_there)
 
-def exp(matrix, n):
+
+def exp(matrix, n, p):
     ret = np.identity(len(matrix))
     mat = matrix
+    if n < 0:
+        mat = inverse_matrix(mat, p)
+        mat = np.array([[val.a if val.a >= 0 else val.a + val.p for val in arr] for arr in mat])
+        n *= -1
     while n != 0:
         if n % 2 == 1:
             ret = np.matmul(mat, ret)
@@ -91,17 +94,34 @@ def exp(matrix, n):
 
 def inverse_matrix(mat, p):
     inverse = ((det(mat) * inv(mat)) * 1.01).astype(int)
-    d_inv = PrimeFieldElement(
-        1, p
-    ) / PrimeFieldElement(
+    d_inv = PrimeFieldElement(1, p) / PrimeFieldElement(
         det(mat.astype(int) * 1.01).astype(int), p
     )
     # print(d_inv)
     # print(np.matmul(inverse,mat))
     # print("mat:",mat.astype(int))
     # print("inv:",inverse.astype(int))
-    inverse = [
-        [PrimeFieldElement(x, p) * d_inv for x in y]
-        for y in inverse
-    ]
+    inverse = [[PrimeFieldElement(x, p) * d_inv for x in y] for y in inverse]
     return inverse
+
+
+def convert_matrix_to_coeffs(mat):
+    product_coeffs = []
+    for i in range(len(mat[0])):
+        product_coeffs.append(mat[i][0])
+
+# x = get_matrix([1,2,2],[1,1,0,1])
+# z = get_matrix([0,1,0],[1,1,0,1])
+# w = get_matrix([1,0,0],[1,1,0,1])
+# print("z:\n",z)
+# print("w:\n",w)
+# print("z*z:\n",np.matmul(z,z))
+# #print(x)
+# #print(int(det(x)*1.01))
+# y = get_matrix([4,1],[1,0,1])
+# #print(x)
+# #print(y)
+# #print(x*y)
+# #print(exp(x.astype(int),13))
+# #print((det(x)*inv(x)))
+# print(np.matmul(inverse_matrix(x,5),[[prime_field_element.PrimeFieldElement(a,5) for a in b]for b in x]))
