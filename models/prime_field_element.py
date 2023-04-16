@@ -1,6 +1,5 @@
 import math
 
-from algo.extended_euclides_algo import inverse_modulo
 from utils.prime_utils import is_prime
 
 
@@ -31,7 +30,7 @@ class PrimeFieldElement:
             raise ValueError("Cannot divide elements from different fields")
         if math.gcd(other.a, self.p) != 1:
             raise ValueError("Cannot divide by elements without an inverse")
-        return self * PrimeFieldElement(inverse_modulo(other.a, self.p), self.p)
+        return self * PrimeFieldElement(pow(int(other.a), -1, int(self.p)), self.p)
 
     def __repr__(self):
         return f"{self.a} (mod {self.p})"
