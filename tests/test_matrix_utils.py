@@ -18,12 +18,19 @@ class TestMatrixConversion(unittest.TestCase):
         z = get_matrix([1, 0, 0], [1, 1, 0, 1])
         self.assertTrue(np.array_equal(exp(w, 2, 61), z))
 
-    def test_exponent_negative(self):
-        w = get_matrix([0,1,0],[1,1,0,1])
+    def test_exponent_negative_p2(self):
+        w = get_matrix([1,1],[1,1,1])  # [[0,-1],[1,1]]
+        exponent_pos = exp(w, 1, 2)
+        exponent_neg = exp(w, -1, 2)
+        mult = np.matmul(exponent_neg, exponent_pos)
+        self.assertTrue(np.array_equal(mult, np.array([[1,0],[0,-1]])))
+
+    def test_exponent_negative_p7(self):
+        w = get_matrix([2,5],[1,6,3])  # [[-7,-6],[2,5]]
         exponent_pos = exp(w, 1, 7)
         exponent_neg = exp(w, -1, 7)
         mult = np.matmul(exponent_neg, exponent_pos)
-        self.assertTrue(np.array_equal(mult, w))
+        self.assertTrue(np.array_equal(mult, np.array([[1,14],[-7,-6]])))
 
     def test_inverse_matrix(self):
         w = get_matrix([0, 1, 0], [1, 1, 0, 1])
