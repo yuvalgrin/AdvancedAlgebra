@@ -15,7 +15,7 @@ def polynom_mul(pol1, pol2):
     new_pol = [0 for i in range(len(pol1) + len(pol2) - 1)]
     for idx1, i1 in enumerate(pol1):
         for idx2, i2 in enumerate(pol2):
-            new_pol[idx1 + idx2] += i1 * i2
+            new_pol[idx1 + idx2] += int(i1) * int(i2)
     return new_pol
 
 
@@ -108,7 +108,8 @@ def inverse_matrix(mat, p):
 def convert_matrix_to_coeffs(mat):
     product_coeffs = []
     for i in range(len(mat[0])):
-        product_coeffs.append(mat[i][0])
+        product_coeffs.append(int(mat[i][0]))
+    return product_coeffs
 
 # x = get_matrix([1,2,2],[1,1,0,1])
 # z = get_matrix([0,1,0],[1,1,0,1])

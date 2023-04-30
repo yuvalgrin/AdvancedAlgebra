@@ -37,3 +37,6 @@ class PrimeFieldElement:
 
     def __eq__(self, other):
         return self.a == other.a and self.p == other.p
+
+    def __int__(self):
+        return int(self.a)

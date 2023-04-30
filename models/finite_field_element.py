@@ -2,16 +2,17 @@ import numpy as np
 
 from models.finite_field import FiniteField
 
-from typing import List
+from typing import List, Union
 
 from models.matrix_convertion import get_matrix, inverse_matrix, convert_matrix_to_coeffs
 from models.prime_field_element import PrimeFieldElement
+from utils.constructor_utils import construct_coeffs
 
 
 class FiniteFieldElement:
-    def __init__(self, finite_field: FiniteField, coeffs: List[int]):
+    def __init__(self, finite_field: FiniteField, coeffs: Union[List[int], List[PrimeFieldElement]]):
         self.field = finite_field
-        self.coeffs = [PrimeFieldElement(coeff, finite_field.p) for coeff in coeffs]
+        self.coeffs = construct_coeffs(coeffs, finite_field.p)
 
     def __add__(self, other):
         if self.field != other.field:
@@ -42,14 +43,16 @@ class FiniteFieldElement:
             raise ZeroDivisionError("Cannot divide by zero")
 
         self_matrix = self.embed_in_GLn()
+        self_matrix = [[PrimeFieldElement(x, self.field.p) for x in y] for y in self_matrix]
         other_matrix = other.embed_in_GLn()
-        other_inverse_matrix = inverse_matrix(other_matrix)
-        quotient_matrix = self_matrix @ other_inverse_matrix
+        other_inverse_matrix = inverse_matrix(other_matrix, self.field.p)
+
+        quotient_matrix = np.array(self_matrix) @ np.array(other_inverse_matrix)
 
         return self.embed_GLn_to_vector(quotient_matrix)
 
     def embed_in_GLn(self):
-        return get_matrix(reversed(self.coeffs), reversed(self.field.f))
+        return get_matrix(list(reversed(self._coeffs_ints())), list(reversed(self.field.f)))
 
     def embed_GLn_to_vector(self, matrix):
         return FiniteFieldElement(self.field, convert_matrix_to_coeffs(matrix))
@@ -62,3 +65,6 @@ class FiniteFieldElement:
 
     def __eq__(self, other):
         return self.field == other.field and self.coeffs == other.coeffs
+
+    def _coeffs_ints(self):
+        return [coeff.a for coeff in self.coeffs]
