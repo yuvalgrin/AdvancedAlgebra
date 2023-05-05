@@ -40,3 +40,6 @@ class PrimeFieldElement:
 
     def __int__(self):
         return int(self.a)
+
+    def __hash__(self):
+        return hash((self.a,self.p))

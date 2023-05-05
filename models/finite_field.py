@@ -12,6 +12,9 @@ class FiniteField:
         self.p = p
         self.f = function
 
+    def __hash__(self):
+        return hash((self.p, tuple(self.f)))
+
     def __eq__(self, other):
         return self.f == other.f and self.p == other.p
 

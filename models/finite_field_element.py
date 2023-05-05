@@ -4,7 +4,7 @@ from models.finite_field import FiniteField
 
 from typing import List, Union
 
-from models.matrix_convertion import get_matrix, inverse_matrix, convert_matrix_to_coeffs
+from models.matrix_convertion import get_matrix, inverse_matrix, convert_matrix_to_coeffs, exp
 from models.prime_field_element import PrimeFieldElement
 from utils.constructor_utils import construct_coeffs
 
@@ -13,6 +13,10 @@ class FiniteFieldElement:
     def __init__(self, finite_field: FiniteField, coeffs: Union[List[int], List[PrimeFieldElement]]):
         self.field = finite_field
         self.coeffs = construct_coeffs(coeffs, finite_field.p)
+
+    def __hash__(self):
+        return hash((self.field, tuple(self.coeffs)))
+        # return hash(repr(self))
 
     def __add__(self, other):
         if self.field != other.field:
@@ -35,6 +39,13 @@ class FiniteFieldElement:
         product_matrix = self_matrix @ other_matrix
 
         return self.embed_GLn_to_vector(product_matrix)
+
+    def __pow__(self, other):
+        self_matrix = self.embed_in_GLn()
+        p = self.field.p
+        exp_matrix = exp(self_matrix, other, p)
+
+        return self.embed_GLn_to_vector(exp_matrix)
 
     def __truediv__(self, other):
         if self.field != other.field:

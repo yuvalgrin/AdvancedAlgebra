@@ -1,6 +1,6 @@
 import unittest
 
-import np
+import numpy as np
 
 from models.finite_field import FiniteField
 from models.finite_field_element import FiniteFieldElement
