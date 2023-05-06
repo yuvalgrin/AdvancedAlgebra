@@ -16,7 +16,6 @@ class FiniteFieldElement:
 
     def __hash__(self):
         return hash((self.field, tuple(self.coeffs)))
-        # return hash(repr(self))
 
     def __add__(self, other):
         if self.field != other.field:
@@ -68,6 +67,26 @@ class FiniteFieldElement:
     def embed_GLn_to_vector(self, matrix):
         return FiniteFieldElement(self.field, convert_matrix_to_coeffs(matrix))
 
+    def get_multiplicative_order(self):
+        e0 = self.get_e0_element(self.field)
+        if e0 == self:
+            raise Exception('You entered the zero element. Please enter a valid element')
+        o = 1
+        n = len(self.field.f) - 1
+        p = self.field.p
+        L = p ** n - 1
+        FloorL = L // 2
+        e1 = self.get_e1_element(self.field)
+        a = self
+        while o <= FloorL:
+            if a == e1:
+                return o
+            else:
+                o = o + 1
+                a = a * self
+        o = L
+        return o
+
     def __str__(self):
         return " + ".join(f"{c}*x^{i}" for i, c in enumerate(self.coeffs))
 
@@ -79,3 +98,4 @@ class FiniteFieldElement:
 
     def _coeffs_ints(self):
         return [coeff.a for coeff in self.coeffs]
+

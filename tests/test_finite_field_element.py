@@ -4,6 +4,7 @@ import numpy as np
 
 from models.finite_field import FiniteField
 from models.finite_field_element import FiniteFieldElement
+from models.finite_field_utils import get_e0_element, get_e1_element
 
 
 class TestFiniteFieldElement(unittest.TestCase):
@@ -83,3 +84,12 @@ class TestFiniteFieldElement(unittest.TestCase):
         element = FiniteFieldElement(field, [0, 0])
         with self.assertRaises(ValueError):
             element.embed_in_GLn()
+
+    def test_multiplicative_order(self):
+        field = FiniteField(3, [1, 0, 1])
+        with self.assertRaises(Exception):
+            e0 = get_e0_element(field)
+            e0.get_multiplicative_order()
+        e1 = get_e1_element(field)
+        e1_order = e1.get_multiplicative_order()
+        self.assertEqual(e1_order, 1)
