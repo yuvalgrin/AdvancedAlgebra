@@ -86,6 +86,47 @@ def TimeMyFunction(func, *arg):
     time_elapsed = end - start
     return time_elapsed
 
+def power_list(element,i):
+    if i < 0:
+        raise ValueError("List ascends from 0 to i > 0, please provide a positive integer")
+    my_field = element.field
+    e1 = generate_e1(my_field)
+    p_list = []
+    p_list.append(e1)
+    if i == 0: return p_list
+    a = element
+    p_list.append(a)
+    j = 1
+    while j < i:
+        a = a * element
+        p_list.append(a)
+        j = j + 1
+    return p_list
+
+
+
+
+
+def BSGS(generator, element):
+    if generator.field != element.field:
+        raise ValueError("Cannot subtract elements from different finite fields")
+    my_field = generator.field
+    n = len(generator.f) - 1
+    p = generator.p
+    q = p ** n
+    iterator = element
+    m = math.ceil(math.sqrt(q-1))
+    baby_list = power_list(generator, m-1)
+    j = 0
+    giant_element = element ** (-m)
+    while j < m-1:
+        if iterator in baby_list:
+            i = baby_list.index(iterator)
+            return j+i*m
+        iterator = iterator * giant_element
+        j = j + 1
+
+
 
 
 
@@ -95,8 +136,8 @@ def TimeMyFunction(func, *arg):
 
 def main():
     print("Benjamin, Ron, and Yuval")
-# my_field = FiniteField(3, [1, 0, 1])
-my_field = FiniteField(7, [3, 6, 1])
+my_field = FiniteField(3, [1, 0, 1])
+# my_field = FiniteField(7, [3, 6, 1])
 # my_field = FiniteField(383, [378, 1, 0, 1])
 # my_field = FiniteField(47, [42 , 3, 0, 1])
 # my_field = FiniteField(97, [92 , 9, 0, 1])

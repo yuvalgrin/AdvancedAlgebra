@@ -116,8 +116,8 @@ def MyFiniteElementGenerator(MyField):
 
 def main():
     print("Benjamin, Ron, and Yuval")
-# my_field = FiniteField(3, [1, 0, 1])
-my_field = FiniteField(7, [3, 6, 1])
+my_field = FiniteField(3, [1, 0, 1])
+# my_field = FiniteField(7, [3, 6, 1])
 my_element1 = FiniteFieldElement(my_field, [0,1])
 my_element2 = FiniteFieldElement(my_field, [1, 1])
 my_e1 = generate_e1(my_field)
