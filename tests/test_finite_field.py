@@ -21,3 +21,9 @@ class TestFiniteField(unittest.TestCase):
 
         self.assertEqual(finite_field1, finite_field2)
         self.assertNotEqual(finite_field1, finite_field3)
+
+    def test_finite_field_reducible(self):
+        with self.assertRaises(Exception):
+            FiniteField(3, [1, 0, 2])
+        FiniteField(3, [1, 2, 0, 1])
+        FiniteField(3, [1, 2, 2, 1])

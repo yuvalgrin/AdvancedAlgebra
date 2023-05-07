@@ -8,6 +8,8 @@ class PrimeFieldElement:
         if not is_prime(p):
             raise ValueError(f"p ({p}) must be prime")
         self.a = a % p
+        if self.a < 0:
+            self.a += p
         self.p = p
 
     def __add__(self, other):
@@ -26,6 +28,7 @@ class PrimeFieldElement:
         return PrimeFieldElement((self.a * other.a) % self.p, self.p)
 
     def __truediv__(self, other):
+        """Using python's implementation of Extended Euclides algorithm to do division"""
         if self.p != other.p:
             raise ValueError("Cannot divide elements from different fields")
         if math.gcd(other.a, self.p) != 1:
