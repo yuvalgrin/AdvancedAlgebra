@@ -1,6 +1,8 @@
 # important note: the less significant bit in the implementaion of the polynoms is the most right one
 # e.g: [1,0,1,2] = x^3 + x + 2
 # x^16+x^15/x^2+x+1 = x^14(-x-1) + x^15 = -x^15 -x^14 +x^15 = -x^14
+from copy import deepcopy
+
 import numpy as np
 from numpy.linalg import inv
 from numpy.linalg import det
@@ -79,10 +81,11 @@ def get_matrix(polynom, reduction_polynom):
 
 def exp(matrix, n, p):
     ret = np.identity(len(matrix))
-    mat = matrix
+    mat = deepcopy(matrix)
     if n < 0:
         mat = inverse_matrix(mat, p)
         mat = np.array([[val.a if val.a >= 0 else val.a + val.p for val in arr] for arr in mat])
+        print(np.matmul(mat, matrix))
         n *= -1
     while n != 0:
         if n % 2 == 1:
@@ -93,9 +96,9 @@ def exp(matrix, n, p):
 
 
 def inverse_matrix(mat, p):
-    inverse = ((det(mat) * inv(mat)) * 1.01).astype(int)
+    inverse = ((det(mat) * inv(mat)) * 1.001).astype(int)
     d_inv = PrimeFieldElement(1, p) / PrimeFieldElement(
-        det(mat.astype(int) * 1.01).astype(int), p
+        det(mat.astype(int) * 1.001).astype(int), p
     )
     # print(d_inv)
     # print(np.matmul(inverse,mat))
@@ -110,7 +113,11 @@ def convert_matrix_to_coeffs(mat):
     for i in range(len(mat[0])):
         product_coeffs.append(mat[i][0])
 
-# x = get_matrix([1,2,2],[1,1,0,1])
+def norm_mat(mat,p):
+    return np.array([[x % p if x > 0 else (x % p) + p for x in y] for y in mat])
+
+x = get_matrix([1,1],[1,6,3])
+print(norm_mat(x,7),x)
 # z = get_matrix([0,1,0],[1,1,0,1])
 # w = get_matrix([1,0,0],[1,1,0,1])
 # print("z:\n",z)
@@ -124,4 +131,4 @@ def convert_matrix_to_coeffs(mat):
 # #print(x*y)
 # #print(exp(x.astype(int),13))
 # #print((det(x)*inv(x)))
-# print(np.matmul(inverse_matrix(x,5),[[prime_field_element.PrimeFieldElement(a,5) for a in b]for b in x]))
+print(np.array([[x % 7 for x in y] for y in np.matmul(exp(x,4,7),exp(x,-4,7))]))
