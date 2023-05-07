@@ -86,30 +86,65 @@ def TimeMyFunction(func, *arg):
     time_elapsed = end - start
     return time_elapsed
 
-def power_list(element,i):
+# def power_list(element,i):
+#     if i < 0:
+#         raise ValueError("List ascends from 0 to i > 0, please provide a positive integer")
+#     my_field = element.field
+#     e1 = generate_e1(my_field)
+#     p_list = []
+#     p_list.append(e1)
+#     if i == 0: return p_list
+#     a = element
+#     p_list.append(a)
+#     j = 1
+#     while j < i:
+#         a = a * element
+#         p_list.append(a)
+#         j = j + 1
+#     return p_list
+
+def power_list(element,i): #generates a dictionary where the powers of the element are the key and indicies i are the values
     if i < 0:
         raise ValueError("List ascends from 0 to i > 0, please provide a positive integer")
     my_field = element.field
     e1 = generate_e1(my_field)
-    p_list = []
-    p_list.append(e1)
+    p_list = {}
+    p_list[e1] = 0
     if i == 0: return p_list
     a = element
-    p_list.append(a)
+    p_list[a] = 1
     j = 1
     while j < i:
         a = a * element
-        p_list.append(a)
+        p_list[a] = j+1
         j = j + 1
     return p_list
 
 
 
 
+# def BSGS(generator, element):
+#     if generator.field != element.field:
+#         raise ValueError("Elements must be from different finite fields")
+#     my_field = generator.field
+#     n = len(generator.f) - 1
+#     p = generator.p
+#     q = p ** n
+#     iterator = element
+#     m = math.ceil(math.sqrt(q-1))
+#     baby_list = power_list(generator, m-1)
+#     j = 0
+#     giant_element = element ** (-m)
+#     while j < m-1:
+#         if iterator in baby_list:
+#             i = baby_list.index(iterator)
+#             return j+i*m
+#         iterator = iterator * giant_element
+#         j = j + 1
 
 def BSGS(generator, element):
     if generator.field != element.field:
-        raise ValueError("Cannot subtract elements from different finite fields")
+        raise ValueError("Elements must be from different finite fields")
     my_field = generator.field
     n = len(generator.f) - 1
     p = generator.p
@@ -121,8 +156,8 @@ def BSGS(generator, element):
     giant_element = element ** (-m)
     while j < m-1:
         if iterator in baby_list:
-            i = baby_list.index(iterator)
-            return j+i*m
+            i = baby_list[iterator]
+            return i+j*m
         iterator = iterator * giant_element
         j = j + 1
 
@@ -136,8 +171,10 @@ def BSGS(generator, element):
 
 def main():
     print("Benjamin, Ron, and Yuval")
-my_field = FiniteField(3, [1, 0, 1])
-# my_field = FiniteField(7, [3, 6, 1])
+# my_field = FiniteField(3, [1, 0, 1])
+my_field = FiniteField(7, [3, 6, 1])
+my_random_element = FiniteFieldElement(my_field, [5,3])
+# my_field = FiniteField(7, [1, 6, 3])
 # my_field = FiniteField(383, [378, 1, 0, 1])
 # my_field = FiniteField(47, [42 , 3, 0, 1])
 # my_field = FiniteField(97, [92 , 9, 0, 1])
@@ -149,11 +186,11 @@ my_element3 = FiniteFieldElement(my_field, [5, 3])
 # print(f"My generator is {MyGen}")
 # MyGen2 = MyGen * MyGen
 # MyGen3 = MyGen2 * my_element3
-my_set_of_elements = generate_set_of_extended_field_elements(my_field)
-my_random_element = my_set_of_elements.pop()
+# my_set_of_elements = generate_set_of_extended_field_elements(my_field)
+# my_random_element = my_set_of_elements.pop()
 # print(my_element1 ** 1)
 print(f"My random element {my_random_element}" )
-print(f"My random element to the power of 1 {my_random_element ** 1}" )
+print(f"My random element to the power of 1:  {my_random_element ** 1}" )
 my_rand_squared = my_random_element * my_random_element
 print(f"My random element squared {my_rand_squared}")
 my_rand_cubed = my_rand_squared * my_random_element
@@ -162,7 +199,7 @@ my_rand_inverse = my_random_element ** (-1)
 print(f"My random element inverse {my_rand_inverse}" )
 print(f"My random element inverse multiplied by my random element {my_rand_inverse * my_random_element}" )
 print(f"My random element divided by my random element {my_random_element / my_random_element}" )
-# print(f"Order of myelement1 {MyFiniteElementOrder(my_element1)}")
+print(f"Order of myelement1 {MyFiniteElementOrder(my_element1)}")
 # print(my_element1 ** 3)
 # MyExp = MyGen ** 2
 # print(MyGen2.coeffs)
