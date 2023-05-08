@@ -45,4 +45,4 @@ class PrimeFieldElement:
         return int(self.a)
 
     def __hash__(self):
-        return hash((self.a,self.p))
+        return hash((self.a, self.p))

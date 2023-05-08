@@ -1,17 +1,15 @@
-import datetime
 import unittest
 
 from models.finite_field import FiniteField
 from models.finite_field_element import FiniteFieldElement, get_e0_element, get_e1_element
-from models.finite_field_generator import finite_field_element_generator
-from models.finite_field_utils import create_set_of_finite_field_elements
+from algo.generator_creation import finite_field_element_generator, create_set_of_finite_field_elements
 
 
 class TestFiniteFieldUtils(unittest.TestCase):
     def test_generate_set_of_finite_field_elements(self):
         my_field = FiniteField(3, [1, 0, 1])
         set_of_elements = create_set_of_finite_field_elements(my_field)
-        polyorder = len(my_field.f) - 1
+        polyorder = my_field.polyorder
         self.assertEqual(len(set_of_elements), my_field.p ** polyorder)
 
     def test_generate_e0(self):

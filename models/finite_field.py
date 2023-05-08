@@ -12,6 +12,10 @@ class FiniteField:
         self.p = p
         self.f = function
 
+    @property
+    def polyorder(self):
+        return len(self.f) - 1
+
     def __hash__(self):
         return hash((self.p, tuple(self.f)))
 

@@ -1,9 +1,9 @@
 import unittest
 
-from models.bsgs import get_power_list, BSGS
+from algo.BSGS import get_power_list, BSGS
 from models.finite_field import FiniteField
 from models.finite_field_element import get_e1_element, FiniteFieldElement
-from models.finite_field_generator import finite_field_element_generator
+from algo.generator_creation import finite_field_element_generator
 
 
 class TestFiniteField(unittest.TestCase):

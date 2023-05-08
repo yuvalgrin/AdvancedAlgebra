@@ -4,7 +4,7 @@ from models.finite_field import FiniteField
 
 from typing import List, Union
 
-from models.matrix_convertion import create_matrix, inverse_matrix, convert_matrix_to_coeffs, exp
+from algo.matrix_convertion import create_matrix, inverse_matrix, convert_matrix_to_coeffs, exp
 from models.prime_field_element import PrimeFieldElement
 from utils.constructor_utils import construct_coeffs
 
@@ -101,14 +101,12 @@ class FiniteFieldElement:
 
 
 def get_e0_element(field: FiniteField):
-    polyorder = len(field.f) - 1
-    poly_list = [0] * polyorder
+    poly_list = [0] * field.polyorder
     result = FiniteFieldElement(field, poly_list)
     return result
 
 
 def get_e1_element(field: FiniteField):
-    polyorder = len(field.f) - 1
-    poly_list = [1] + [0] * (polyorder - 1)
+    poly_list = [1] + [0] * (field.polyorder - 1)
     result = FiniteFieldElement(field, poly_list)
     return result

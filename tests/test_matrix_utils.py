@@ -1,7 +1,7 @@
 import unittest
 
 import numpy as np
-from models.matrix_convertion import create_matrix, exp, inverse_matrix
+from algo.matrix_convertion import create_matrix, exp, inverse_matrix
 
 
 class TestMatrixConversion(unittest.TestCase):

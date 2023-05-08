@@ -1,6 +1,6 @@
 import unittest
 
-from models.matrix_convertion import (
+from algo.polynom_ops import (
     polynom_mul,
     polynom_plus,
     polynom_minus,

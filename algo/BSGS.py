@@ -25,7 +25,7 @@ def get_power_list(element: FiniteFieldElement, i: int):
 def BSGS(generator: FiniteFieldElement, element: FiniteFieldElement):
     if generator.field != element.field:
         raise ValueError("Cannot use different different finite fields")
-    polyorder = len(generator.field.f) - 1
+    polyorder = generator.field.polyorder
     p = generator.field.p
     q = p ** polyorder
     iterator = element
@@ -39,4 +39,4 @@ def BSGS(generator: FiniteFieldElement, element: FiniteFieldElement):
             return i + j * m
         iterator = iterator * giant_element
         j += 1
-    raise RuntimeError("Failed running BSGS algorithm")
+    raise RuntimeError(f"Failed running BSGS algorithm on generator: {generator}, and element {element}")
