@@ -26,3 +26,11 @@ class TestFiniteFieldUtils(unittest.TestCase):
         my_field = FiniteField(3, [1, 0, 1])
         gen = finite_field_element_generator(my_field)
         self.assertEqual(gen, FiniteFieldElement(my_field, [1, 2]))
+
+    def test_finite_field_element_generator2(self):
+        finite_field = FiniteField(7, [3, 6, 1])
+        gen = finite_field_element_generator(finite_field)
+        prime = finite_field.p
+        extenstion_order = len(finite_field.f) - 1
+        group_order = (prime ** (extenstion_order))-1
+        self.assertEqual(gen.get_multiplicative_order(), group_order)

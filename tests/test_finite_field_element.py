@@ -109,6 +109,7 @@ class TestFiniteFieldElement(unittest.TestCase):
         self.assertEqual(mult_with_self, mult_sqr)
 
 
+
 class TestElementExponent(unittest.TestCase):
     def test_exponent_positive(self):
         field = FiniteField(61, [1, 0, 1, 1])
@@ -149,4 +150,10 @@ class TestElementExponent(unittest.TestCase):
         expected = FiniteFieldElement(field, [344, 518])
         self.assertEqual(mult, expected)
 
-
+    def test_power(self):
+        field = FiniteField(7, [3, 6, 1])
+        x = FiniteFieldElement(field, [1, 3])
+        t = 48
+        z = x ** t
+        check_element = FiniteFieldElement(field, [1, 0])
+        self.assertEqual(check_element, z)
