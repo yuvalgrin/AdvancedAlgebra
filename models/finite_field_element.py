@@ -67,13 +67,6 @@ class FiniteFieldElement:
 
         return self.embed_GLn_to_vector(product_matrix)
 
-    # def __pow__(self, n):
-    #     self_matrix = self.embed_in_GLn()
-    #     p = self.field.p
-    #     exp_matrix = exp(self_matrix, n, p)
-    #
-    #     return self.embed_GLn_to_vector(exp_matrix)
-
     def __pow__(self, n):
         """Raise by an exponent of n in the prime field p by using the existing multiplication logic"""
         result_element = get_e1_element(self.field)
@@ -126,19 +119,3 @@ def get_e1_element(field: FiniteField):
     poly_list = [1] + [0] * (field.polyorder - 1)
     result = FiniteFieldElement(field, poly_list)
     return result
-
-def exp(self, n: int):
-    """Raise by an exponent of n in the prime field p.
-    Multiply the identity with the matrix n times, convert the negative elements back to positive in the prime field.
-    """
-    ret = get_e1_element(self.field)
-    element = self
-    if n < 0:
-        element = ret / element
-        n *= -1
-    while n != 0:
-        if n % 2 == 1:
-            ret = element * ret
-        element = element * element
-        n = n >> 1
-    return ret

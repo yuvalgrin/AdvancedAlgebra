@@ -34,4 +34,3 @@ def inverse_matrix(mat: List[List[int]], p: int):
 def convert_matrix_to_coeffs(mat: List[List[int]]):
     """Get the relevant line that represents the coefficients"""
     return list(reversed([int(val) for val in mat[-1]]))
-
