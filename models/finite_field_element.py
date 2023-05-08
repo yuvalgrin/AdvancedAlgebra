@@ -4,7 +4,7 @@ from models.finite_field import FiniteField
 
 from typing import List, Union
 
-from algo.matrix_convertion import create_matrix, inverse_matrix, convert_matrix_to_coeffs, exp
+from algo.matrix_convertion import create_matrix, inverse_matrix, convert_matrix_to_coeffs
 from models.prime_field_element import PrimeFieldElement
 from utils.constructor_utils import construct_coeffs
 
@@ -65,12 +65,18 @@ class FiniteFieldElement:
 
         return self.embed_GLn_to_vector(product_matrix)
 
-    def __pow__(self, n):
-        self_matrix = self.embed_in_GLn()
-        p = self.field.p
-        exp_matrix = exp(self_matrix, n, p)
+    # def __pow__(self, n):
+    #     self_matrix = self.embed_in_GLn()
+    #     p = self.field.p
+    #     exp_matrix = exp(self_matrix, n, p)
+    #
+    #     return self.embed_GLn_to_vector(exp_matrix)
 
-        return self.embed_GLn_to_vector(exp_matrix)
+    def __pow__(self, n):
+        self_element = self
+        exp_element = exp(self_element, n)
+
+        return exp_element
 
     def __truediv__(self, other):
         if self.field != other.field:
@@ -110,3 +116,19 @@ def get_e1_element(field: FiniteField):
     poly_list = [1] + [0] * (field.polyorder - 1)
     result = FiniteFieldElement(field, poly_list)
     return result
+
+def exp(self, n: int):
+    """Raise by an exponent of n in the prime field p.
+    Multiply the identity with the matrix n times, convert the negative elements back to positive in the prime field.
+    """
+    ret = get_e1_element(self.field)
+    element = self
+    if n < 0:
+        element = ret / element
+        n *= -1
+    while n != 0:
+        if n % 2 == 1:
+            ret = element * ret
+        element = element * element
+        n = n >> 1
+    return ret

@@ -29,7 +29,7 @@ def BSGS(generator: FiniteFieldElement, element: FiniteFieldElement):
     p = generator.field.p
     q = p ** polyorder
     iterator = element
-    m = math.ceil(math.sqrt(q-1))
+    m = math.ceil(math.sqrt(q))
     baby_list = get_power_list(generator, m - 1)
     j = 0
     giant_element = generator ** (-m)

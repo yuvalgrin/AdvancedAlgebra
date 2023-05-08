@@ -106,3 +106,10 @@ class TestFiniteFieldElement(unittest.TestCase):
         self.assertEqual(mult_with_self, mult_sqr)
 
 
+    def test_power(self):
+        field = FiniteField(7, [3, 6, 1])
+        x = FiniteFieldElement(field, [1, 3])
+        t = 48
+        z = x ** t
+        check_element = FiniteFieldElement(field, [1, 0])
+        self.assertEqual(check_element, z)

@@ -20,23 +20,39 @@ def create_matrix(polynom: List[int], reduction_polynom: List[int]):
     return np.int_(dot_unity_mod_reduction)
 
 
-def exp(matrix: List[List[int]], n: int, p: int):
-    """Raise by an exponent of n in the prime field p.
-    Multiply the identity with the matrix n times, convert the negative elements back to positive in the prime field.
-    """
-    ret = np.identity(len(matrix))
-    mat = matrix.copy()
-    if n < 0:
-        mat = inverse_matrix(mat, p)
-        mat = np.array([[int(PrimeFieldElement(val.a, val.p)) for val in arr] for arr in mat])
-        n *= -1
-    while n != 0:
-        if n % 2 == 1:
-            ret = np.matmul(mat, ret)
-        mat = np.matmul(mat, mat)
-        n = n >> 1
-    return ret
+# def exp(matrix: List[List[int]], n: int, p: int):
+#     """Raise by an exponent of n in the prime field p.
+#     Multiply the identity with the matrix n times, convert the negative elements back to positive in the prime field.
+#     """
+#     ret = np.identity(len(matrix))
+#     mat = matrix.copy()
+#     if n < 0:
+#         mat = inverse_matrix(mat, p)
+#         mat = np.array([[int(PrimeFieldElement(val.a, val.p)) for val in arr] for arr in mat])
+#         n *= -1
+#     while n != 0:
+#         if n % 2 == 1:
+#             ret = np.matmul(mat, ret)
+#         mat = np.matmul(mat, mat)
+#         n = n >> 1
+#     return ret
 
+# def exp(field_element: FiniteFieldElement, n: int):
+# def exp(self, n: int):
+#     """Raise by an exponent of n in the prime field p.
+#     Multiply the identity with the matrix n times, convert the negative elements back to positive in the prime field.
+#     """
+#     ret = get_e1_element(self.field)
+#     element = self
+#     if n < 0:
+#         element = ret / element
+#         n *= -1
+#     while n != 0:
+#         if n % 2 == 1:
+#             ret = element * ret
+#         element = element * element
+#         n = n >> 1
+#     return ret
 
 def inverse_matrix(mat: List[List[int]], p: int):
     """Use numpy inverse matrix method, and multiply by the determinant in order to get the adj matrix.
@@ -52,3 +68,4 @@ def inverse_matrix(mat: List[List[int]], p: int):
 def convert_matrix_to_coeffs(mat: List[List[int]]):
     """Get the relevant line that represents the coefficients"""
     return list(reversed([int(val) for val in mat[-1]]))
+
