@@ -7,6 +7,6 @@ def construct_coeffs(coeffs, p):
     if isinstance(coeffs[0], int):
         return [PrimeFieldElement(coeff, p) for coeff in coeffs]
     elif isinstance(coeffs[0], PrimeFieldElement):
-        return coeffs
+        return list(coeffs)
     else:
         raise ValueError("Invalid coeffs value")

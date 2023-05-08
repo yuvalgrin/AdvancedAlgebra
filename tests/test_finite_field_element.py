@@ -1,14 +1,14 @@
 import unittest
 
-import np
+import numpy as np
 
 from models.finite_field import FiniteField
-from models.finite_field_element import FiniteFieldElement
+from models.finite_field_element import FiniteFieldElement, get_e0_element, get_e1_element
 
 
 class TestFiniteFieldElement(unittest.TestCase):
     def setUp(self):
-        self.finite_field = FiniteField(5, [2, 1, 0, 1])
+        self.finite_field = FiniteField(5, [3, 3, 0, 1])
 
     def _create_field(self, coeffs):
         return FiniteFieldElement(self.finite_field, coeffs)
@@ -29,13 +29,13 @@ class TestFiniteFieldElement(unittest.TestCase):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])
         y = FiniteFieldElement(self.finite_field, [4, 3, 2])
         z = x * y
-        self.assertEqual(z.coeffs, self._create_field([4, 1, 4]).coeffs)
+        self.assertEqual(z.coeffs, self._create_field([0, 4, 2]).coeffs)
 
     def test_division(self):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])
         y = FiniteFieldElement(self.finite_field, [4, 3, 2])
         z = x / y
-        self.assertEqual(z.coeffs, self._create_field([0, 0, 0]).coeffs)
+        self.assertEqual(z.coeffs, self._create_field([4, 0, 0]).coeffs)
 
     def test_str(self):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])
@@ -44,7 +44,7 @@ class TestFiniteFieldElement(unittest.TestCase):
     def test_repr(self):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])
         self.assertEqual(
-            repr(x), "FiniteFieldElement(FiniteField(5, [2, 1, 0, 1]), [1 (mod 5), 2 (mod 5), 3 (mod 5)])"
+            repr(x), "FiniteFieldElement(FiniteField(5, [3, 3, 0, 1]), [1 (mod 5), 2 (mod 5), 3 (mod 5)])"
         )
 
     def test_equality(self):
@@ -56,7 +56,7 @@ class TestFiniteFieldElement(unittest.TestCase):
 
     def test_invalid_operations(self):
         x = FiniteFieldElement(self.finite_field, [1, 2, 3])
-        y = FiniteFieldElement(FiniteField(7, [1, 1, 1]), [1, 2, 3])
+        y = FiniteFieldElement(FiniteField(7, [3, 6, 1]), [1, 2, 3])
         with self.assertRaises(ValueError):
             x + y
             x - y
@@ -64,22 +64,45 @@ class TestFiniteFieldElement(unittest.TestCase):
             x / y
 
     def test_embed_in_GLn(self):
-        # Test embedding of element [1, 2] in GF(5^2)
-        field = FiniteField(5, [1, 2])
-        element = FiniteFieldElement(field, [1, 2])
+        element = FiniteFieldElement(self.finite_field, [1, 2])
         matrix = element.embed_in_GLn()
-        expected = np.array([[1, 1], [2, 0]])
+        expected = np.array([[1, -6, -6], [2, 1, 0], [0, 2, 1]])
         self.assertTrue(np.array_equal(matrix, expected))
 
-        # Test embedding of element [2, 1, 3] in GF(7^3)
-        field = FiniteField(7, 3)
-        element = FiniteFieldElement(field, [2, 1, 3])
-        matrix = element.embed_in_GLn()
-        expected = np.array([[2, 2, 0], [1, 6, 1], [3, 1, 0]])
-        self.assertTrue(np.array_equal(matrix, expected))
+    def test_multiplicative_order(self):
+        field = FiniteField(3, [1, 0, 1])
+        with self.assertRaises(Exception):
+            e0 = get_e0_element(field)
+            e0.get_multiplicative_order()
+        e1 = get_e1_element(field)
+        e1_order = e1.get_multiplicative_order()
+        self.assertEqual(e1_order, 1)
 
-        # Test embedding of zero element in GF(2^2)
-        field = FiniteField(2, 2)
-        element = FiniteFieldElement(field, [0, 0])
-        with self.assertRaises(ValueError):
-            element.embed_in_GLn()
+    def test_multiplicative_order_2(self):
+        field = FiniteField(7, [3, 6, 1])
+        element = FiniteFieldElement(field, [0, 1])
+        element_order = element.get_multiplicative_order()
+        self.assertEqual(element_order, 48)
+        element = FiniteFieldElement(field, [4, 5])
+        element_order = element.get_multiplicative_order()
+        self.assertEqual(element_order, 16)
+
+    def test_multi(self):
+        field = FiniteField(7, [3, 6, 1])
+        element = FiniteFieldElement(field, [5, 3])
+        mult_sqr = element ** 1
+        self.assertEqual(element, mult_sqr)
+
+        mult_with_self = element * element
+        mult_sqr = element ** 2
+        self.assertEqual(mult_with_self, mult_sqr)
+
+        mult_with_self = element * element * element
+        mult_sqr = element ** 3
+        self.assertEqual(mult_with_self, mult_sqr)
+
+        mult_with_self = element * element * element * element
+        mult_sqr = element ** 4
+        self.assertEqual(mult_with_self, mult_sqr)
+
+
