@@ -20,24 +20,6 @@ def create_matrix(polynom: List[int], reduction_polynom: List[int]):
     return np.int_(dot_unity_mod_reduction)
 
 
-def exp(matrix: List[List[int]], n: int, p: int):
-    """Raise by an exponent of n in the prime field p.
-    Multiply the identity with the matrix n times, convert the negative elements back to positive in the prime field.
-    """
-    ret = np.identity(len(matrix))
-    mat = matrix.copy()
-    if n < 0:
-        mat = inverse_matrix(mat, p)
-        mat = np.array([[int(PrimeFieldElement(val.a, val.p)) for val in arr] for arr in mat])
-        n *= -1
-    while n != 0:
-        if n % 2 == 1:
-            ret = np.matmul(mat, ret)
-        mat = np.matmul(mat, mat)
-        n = n >> 1
-    return ret
-
-
 def inverse_matrix(mat: List[List[int]], p: int):
     """Use numpy inverse matrix method, and multiply by the determinant in order to get the adj matrix.
     Divide again by the determinant but with our division inside the prime field."""

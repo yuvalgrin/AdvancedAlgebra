@@ -1,10 +1,12 @@
+from copy import deepcopy
+
 import numpy as np
 
 from models.finite_field import FiniteField
 
 from typing import List, Union
 
-from algo.matrix_convertion import create_matrix, inverse_matrix, convert_matrix_to_coeffs, exp
+from algo.matrix_convertion import create_matrix, inverse_matrix, convert_matrix_to_coeffs
 from models.prime_field_element import PrimeFieldElement
 from utils.constructor_utils import construct_coeffs
 
@@ -66,11 +68,18 @@ class FiniteFieldElement:
         return self.embed_GLn_to_vector(product_matrix)
 
     def __pow__(self, n):
-        self_matrix = self.embed_in_GLn()
-        p = self.field.p
-        exp_matrix = exp(self_matrix, n, p)
-
-        return self.embed_GLn_to_vector(exp_matrix)
+        """Raise by an exponent of n in the prime field p by using the existing multiplication logic"""
+        result_element = get_e1_element(self.field)
+        element = deepcopy(self)
+        if n < 0:
+            element = result_element / element
+            n *= -1
+        while n != 0:
+            if n % 2 == 1:
+                result_element = element * result_element
+            element = element * element
+            n = n >> 1
+        return result_element
 
     def __truediv__(self, other):
         if self.field != other.field:
