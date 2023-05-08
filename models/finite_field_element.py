@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import numpy as np
 
 from models.finite_field import FiniteField
@@ -73,10 +75,18 @@ class FiniteFieldElement:
     #     return self.embed_GLn_to_vector(exp_matrix)
 
     def __pow__(self, n):
-        self_element = self
-        exp_element = exp(self_element, n)
-
-        return exp_element
+        """Raise by an exponent of n in the prime field p by using the existing multiplication logic"""
+        result_element = get_e1_element(self.field)
+        element = deepcopy(self)
+        if n < 0:
+            element = result_element / element
+            n *= -1
+        while n != 0:
+            if n % 2 == 1:
+                result_element = element * result_element
+            element = element * element
+            n = n >> 1
+        return result_element
 
     def __truediv__(self, other):
         if self.field != other.field:

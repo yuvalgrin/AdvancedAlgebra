@@ -87,9 +87,9 @@ class TestFiniteFieldElement(unittest.TestCase):
         element_order = element.get_multiplicative_order()
         self.assertEqual(element_order, 16)
 
-    def test_multi(self):
+    def test_exp_equal_multiply(self):
         field = FiniteField(7, [3, 6, 1])
-        element = FiniteFieldElement(field, [5, 3])
+        element = FiniteFieldElement(field, [1, 3])
         mult_sqr = element ** 1
         self.assertEqual(element, mult_sqr)
 
@@ -101,8 +101,11 @@ class TestFiniteFieldElement(unittest.TestCase):
         mult_sqr = element ** 3
         self.assertEqual(mult_with_self, mult_sqr)
 
-        mult_with_self = element * element * element * element
-        mult_sqr = element ** 4
+        mult_with_self = element * element * element * element * element * \
+                         element * element * element * element * element * \
+                         element * element * element * element * element * \
+                         element * element * element * element * element
+        mult_sqr = element ** 20
         self.assertEqual(mult_with_self, mult_sqr)
 
 
@@ -113,3 +116,44 @@ class TestFiniteFieldElement(unittest.TestCase):
         z = x ** t
         check_element = FiniteFieldElement(field, [1, 0])
         self.assertEqual(check_element, z)
+class TestElementExponent(unittest.TestCase):
+    def test_exponent_positive(self):
+        field = FiniteField(61, [1, 0, 1, 1])
+        element1 = FiniteFieldElement(field, [0, 1, 0])
+        element2 = FiniteFieldElement(field, [0, 0, 1])
+        self.assertEqual(element1 ** 2, element2)
+
+    def test_exponent_zero(self):
+        field = FiniteField(61, [1, 0, 1, 1])
+        element1 = FiniteFieldElement(field, [0, 1, 0])
+        element2 = FiniteFieldElement(field, [1, 0, 0])
+        self.assertEqual(element1 ** 0, element2)
+
+    def test_exponent_negative_p2(self):
+        field = FiniteField(2, [1, 1, 1])
+        element = FiniteFieldElement(field, [1, 1])
+        exponent_pos = element ** 1
+        exponent_neg = element ** -1
+        mult = exponent_neg * exponent_pos
+        expected = FiniteFieldElement(field, [1, 0])
+        self.assertEqual(mult, expected)
+
+    def test_exponent_negative_p7(self):
+        field = FiniteField(7, [3, 6, 1])
+        element = FiniteFieldElement(field, [2, 5])
+        exponent_pos = element ** 1
+        exponent_neg = element ** -1
+        mult = exponent_neg * exponent_pos
+        expected = FiniteFieldElement(field, [-6, -7])
+        self.assertEqual(mult, expected)
+
+    def test_exp_7(self):
+        field = FiniteField(7, [3, 6, 1])
+        element = FiniteFieldElement(field, [3, 5])
+        exponent_pos = element ** 2
+        exponent_neg = element ** -2
+        mult = exponent_neg * exponent_pos
+        expected = FiniteFieldElement(field, [344, 518])
+        self.assertEqual(mult, expected)
+
+
