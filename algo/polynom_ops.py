@@ -31,7 +31,7 @@ def polynom_subtract(pol1: List[int], pol2: List[int]):
 
 
 def modulu_polynom(input_polynom: List[int], reduction_polynom: List[int]):
-    """Modulu a polynom with a reduction polynom.
+    """Modulu a polynom with a irreducible polynom.
     If the rank(polynom) > rank(reduction polynom):
         # example rank(x^3 + x) > rank(x^2 + 2)
         Reduce every x^n | n>r, where r = rank(reduction polynom), by representing it as x^r * x^(n-r).

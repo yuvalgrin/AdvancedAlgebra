@@ -55,8 +55,8 @@ class TestFiniteFieldElement(unittest.TestCase):
         self.assertNotEqual(x, z)
 
     def test_invalid_operations(self):
-        x = FiniteFieldElement(self.finite_field, [1, 2, 3])
-        y = FiniteFieldElement(FiniteField(7, [3, 6, 1]), [1, 2, 3])
+        x = FiniteFieldElement(self.finite_field, [1, 2])
+        y = FiniteFieldElement(FiniteField(7, [3, 6, 1]), [1, 2])
         with self.assertRaises(ValueError):
             x + y
             x - y

@@ -8,24 +8,22 @@ class PrimeFieldElement:
         if not is_prime(p):
             raise ValueError(f"p ({p}) must be prime")
         self.a = a % p
-        if self.a < 0:
-            self.a += p
         self.p = p
 
     def __add__(self, other):
         if self.p != other.p:
             raise ValueError("Cannot add elements from different fields")
-        return PrimeFieldElement((self.a + other.a) % self.p, self.p)
+        return PrimeFieldElement(self.a + other.a, self.p)
 
     def __sub__(self, other):
         if self.p != other.p:
             raise ValueError("Cannot subtract elements from different fields")
-        return PrimeFieldElement((self.a - other.a) % self.p, self.p)
+        return PrimeFieldElement(self.a - other.a, self.p)
 
     def __mul__(self, other):
         if self.p != other.p:
             raise ValueError("Cannot multiply elements from different fields")
-        return PrimeFieldElement((self.a * other.a) % self.p, self.p)
+        return PrimeFieldElement(self.a * other.a, self.p)
 
     def __truediv__(self, other):
         """Using python's implementation of Extended Euclides algorithm to do division"""
@@ -33,7 +31,8 @@ class PrimeFieldElement:
             raise ValueError("Cannot divide elements from different fields")
         if math.gcd(other.a, self.p) != 1:
             raise ValueError("Cannot divide by elements without an inverse")
-        return self * PrimeFieldElement(pow(int(other.a), -1, int(self.p)), self.p)
+        extended_euclides_inverse = pow(int(other), -1, int(self.p))
+        return self * PrimeFieldElement(extended_euclides_inverse, self.p)
 
     def __repr__(self):
         return f"{self.a} (mod {self.p})"
