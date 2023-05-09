@@ -28,23 +28,26 @@ class FiniteFieldElement:
         return FiniteFieldElement(self.field, convert_matrix_to_coeffs(matrix))
 
     def get_multiplicative_order(self):
+        """Calculate the multiplicative order by multiplying the element with itself,
+        until we get to the e1 element or the middle of group to save calculation time.
+        (The order of the element must divide the order of the group)."""
         e0 = get_e0_element(self.field)
         if e0 == self:
-            raise Exception('You entered the zero element. Please enter a valid element')
+            raise Exception(f"Cannot find multiplicate order of the zero element {self}")
         o = 1
-        n = len(self.field.f) - 1
-        p = self.field.p
-        L = p ** n - 1
-        FloorL = L // 2
+        field_order = self.field.p ** self.field.polyorder - 1
+        floor_field_order = field_order // 2
         e1 = get_e1_element(self.field)
-        a = self
-        while o <= FloorL:
-            if a == e1:
+
+        element = deepcopy(self)
+        while o <= floor_field_order:
+            if element == e1:  # Next multiplication we'll to (self)
                 return o
             else:
-                o = o + 1
-                a = a * self
-        o = L
+                o += 1
+                element *= self
+
+        o = field_order
         return o
 
     def _coeffs_ints(self):
