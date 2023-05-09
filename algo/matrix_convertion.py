@@ -14,9 +14,12 @@ from models.prime_field_element import PrimeFieldElement
 def create_matrix(polynom: List[int], reduction_polynom: List[int]):
     """Multiply the basis of l that's represented by the unity matrix, with the polynom
     we are trying to represent. Then reduce monomials with high degree using modulu_polynom method"""
-    unity_matrix = np.identity(len(reduction_polynom) - 1)
-    polynom_dot_unity = [polynom_mul(unity_row, polynom) for unity_row in unity_matrix]
-    dot_unity_mod_reduction = [modulu_polynom(row, reduction_polynom) for row in polynom_dot_unity]
+    reversed_polynom = list(reversed(polynom))
+    reversed_reduction_polynom = list(reversed(reduction_polynom))
+
+    unity_matrix = np.identity(len(reversed_reduction_polynom) - 1)
+    polynom_dot_unity = [polynom_mul(unity_row, reversed_polynom) for unity_row in unity_matrix]
+    dot_unity_mod_reduction = [modulu_polynom(row, reversed_reduction_polynom) for row in polynom_dot_unity]
     return np.int_(dot_unity_mod_reduction)
 
 

@@ -12,12 +12,17 @@ from utils.constructor_utils import construct_coeffs
 
 
 class FiniteFieldElement:
-    def __init__(self, finite_field: FiniteField, coeffs: Union[List[int], List[PrimeFieldElement]]):
+    def __init__(self, finite_field: FiniteField, coeffs: Union[List[int], List[PrimeFieldElement]], gln_matrix=None):
         self.field = finite_field
         self.coeffs = construct_coeffs(coeffs, finite_field.p)
+        if self.field.polyorder <= len(coeffs) - 1:
+            raise ValueError(f"The order of the irreducible polynom {self.field.polyorder} has to be smaller than the order of the element polynom {len(coeffs) - 1}")
+        self.gln_matrix = gln_matrix
 
     def embed_in_GLn(self):
-        return create_matrix(list(reversed(self._coeffs_ints())), list(reversed(self.field.f)))
+        if self.gln_matrix is None:
+            self.gln_matrix = create_matrix(self._coeffs_ints(), self.field.f)
+        return self.gln_matrix
 
     def embed_GLn_to_vector(self, matrix):
         return FiniteFieldElement(self.field, convert_matrix_to_coeffs(matrix))
