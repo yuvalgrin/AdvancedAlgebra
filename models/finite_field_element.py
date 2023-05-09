@@ -2,6 +2,7 @@ from copy import deepcopy
 
 import numpy as np
 
+from algo.polynom_ops import polynom_add, polynom_sub
 from models.finite_field import FiniteField
 
 from typing import List, Union
@@ -21,7 +22,7 @@ class FiniteFieldElement:
 
     def embed_in_GLn(self):
         if self.gln_matrix is None:
-            self.gln_matrix = create_matrix(self._coeffs_ints(), self.field.f)
+            self.gln_matrix = create_matrix(self.numeric_coeffs(), self.field.f)
         return self.gln_matrix
 
     def embed_GLn_to_vector(self, matrix):
@@ -50,19 +51,19 @@ class FiniteFieldElement:
         o = field_order
         return o
 
-    def _coeffs_ints(self):
+    def numeric_coeffs(self, should_reverse=False):
         return [int(coeff) for coeff in self.coeffs]
 
     def __add__(self, other):
         if self.field != other.field:
             raise ValueError("Cannot add elements from different finite fields")
-        new_coeffs = [a + b for a, b in zip(self.coeffs, other.coeffs)]
+        new_coeffs = polynom_add(self.numeric_coeffs(), other.numeric_coeffs(), False)
         return FiniteFieldElement(self.field, new_coeffs)
 
     def __sub__(self, other):
         if self.field != other.field:
             raise ValueError("Cannot subtract elements from different finite fields")
-        new_coeffs = [a - b for a, b in zip(self.coeffs, other.coeffs)]
+        new_coeffs = polynom_sub(self.numeric_coeffs(), other.numeric_coeffs(), False)
         return FiniteFieldElement(self.field, new_coeffs)
 
     def __mul__(self, other):
