@@ -12,12 +12,12 @@ class TestMatrixConversion(unittest.TestCase):
         x = create_matrix([1, 1], [1, 0, 1])
         self.assertTrue(np.array_equal(x, [[1,-1],[1,1]]))
 
-        w = create_matrix([0, 1, 0], [1, 1, 0, 1])
-        z = create_matrix([1, 0, 0], [1, 1, 0, 1])
+        w = create_matrix([0, 1, 0], [1, 0, 1, 1])
+        z = create_matrix([0, 0, 1], [1, 0, 1, 1])
         self.assertTrue(np.array_equal(np.matmul(w,w), z))
 
     def test_inverse_matrix(self):
-        w = create_matrix([0, 1, 0], [1, 1, 0, 1])
+        w = create_matrix([0, 1, 0], [1, 0, 1, 1])
         p = 5
         inv_w = inverse_matrix(w, p)
         inv_w_int = _cast_prime_field_matrix_to_positive_int(inv_w)

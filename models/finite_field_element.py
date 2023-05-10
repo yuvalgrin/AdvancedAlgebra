@@ -2,6 +2,7 @@ from copy import deepcopy
 
 import numpy as np
 
+from algo.polynom_ops import polynom_add, polynom_sub
 from models.finite_field import FiniteField
 
 from typing import List, Union
@@ -12,49 +13,57 @@ from utils.constructor_utils import construct_coeffs
 
 
 class FiniteFieldElement:
-    def __init__(self, finite_field: FiniteField, coeffs: Union[List[int], List[PrimeFieldElement]]):
+    def __init__(self, finite_field: FiniteField, coeffs: Union[List[int], List[PrimeFieldElement]], gln_matrix=None):
         self.field = finite_field
         self.coeffs = construct_coeffs(coeffs, finite_field.p)
+        if self.field.polyorder <= len(coeffs) - 1:
+            raise ValueError(f"The order of the irreducible polynom {self.field.polyorder} has to be smaller than the order of the element polynom {len(coeffs) - 1}")
+        self.gln_matrix = gln_matrix
 
     def embed_in_GLn(self):
-        return create_matrix(list(reversed(self._coeffs_ints())), list(reversed(self.field.f)))
+        if self.gln_matrix is None:
+            self.gln_matrix = create_matrix(self.numeric_coeffs(), self.field.f)
+        return self.gln_matrix
 
     def embed_GLn_to_vector(self, matrix):
         return FiniteFieldElement(self.field, convert_matrix_to_coeffs(matrix))
 
     def get_multiplicative_order(self):
+        """Calculate the multiplicative order by multiplying the element with itself,
+        until we get to the e1 element or the middle of group to save calculation time.
+        (The order of the element must divide the order of the group)."""
         e0 = get_e0_element(self.field)
         if e0 == self:
-            raise Exception('You entered the zero element. Please enter a valid element')
+            raise Exception(f"Cannot find multiplicate order of the zero element {self}")
         o = 1
-        n = len(self.field.f) - 1
-        p = self.field.p
-        L = p ** n - 1
-        FloorL = L // 2
+        field_order = self.field.p ** self.field.polyorder - 1
+        floor_field_order = field_order // 2
         e1 = get_e1_element(self.field)
-        a = self
-        while o <= FloorL:
-            if a == e1:
+
+        element = deepcopy(self)
+        while o <= floor_field_order:
+            if element == e1:  # Next multiplication we'll to (self)
                 return o
             else:
-                o = o + 1
-                a = a * self
-        o = L
+                o += 1
+                element *= self
+
+        o = field_order
         return o
 
-    def _coeffs_ints(self):
+    def numeric_coeffs(self, should_reverse=False):
         return [int(coeff) for coeff in self.coeffs]
 
     def __add__(self, other):
         if self.field != other.field:
             raise ValueError("Cannot add elements from different finite fields")
-        new_coeffs = [a + b for a, b in zip(self.coeffs, other.coeffs)]
+        new_coeffs = polynom_add(self.numeric_coeffs(), other.numeric_coeffs(), False)
         return FiniteFieldElement(self.field, new_coeffs)
 
     def __sub__(self, other):
         if self.field != other.field:
             raise ValueError("Cannot subtract elements from different finite fields")
-        new_coeffs = [a - b for a, b in zip(self.coeffs, other.coeffs)]
+        new_coeffs = polynom_sub(self.numeric_coeffs(), other.numeric_coeffs(), False)
         return FiniteFieldElement(self.field, new_coeffs)
 
     def __mul__(self, other):

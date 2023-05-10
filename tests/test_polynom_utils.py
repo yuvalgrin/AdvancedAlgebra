@@ -2,9 +2,9 @@ import unittest
 
 from algo.polynom_ops import (
     polynom_mul,
-    polynom_plus,
-    polynom_minus,
-    polynom_subtract,
+    polynom_add,
+    polynom_neg,
+    polynom_sub,
     modulu_polynom,
 )
 
@@ -19,13 +19,13 @@ class TestPolynomialUtils(unittest.TestCase):
         self.assertEqual(modulu, [0, 8])
 
     def test_poly_sub(self):
-        subtract = polynom_subtract([7, 4, 3], [4, 7, -6, 3])
+        subtract = polynom_sub([7, 4, 3], [4, 7, -6, 3])
         self.assertEqual(subtract, [-4, 0, 10, 0])
 
     def test_poly_minus(self):
-        minus = polynom_minus([4, 9, -6, 5])
+        minus = polynom_neg([4, 9, -6, 5])
         self.assertEqual(minus, [-4, -9, 6, -5])
 
     def test_poly_plus(self):
-        plus = polynom_plus([7, 4, 3], [4, 9, -6, 5])
+        plus = polynom_add([7, 4, 3], [4, 9, -6, 5])
         self.assertEqual(plus, [4, 16, -2, 8])
