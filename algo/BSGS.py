@@ -6,17 +6,24 @@ from models.finite_field_element import FiniteFieldElement, get_e1_element
 
 
 def calculate_baby_steps(element: FiniteFieldElement, i: int) -> Dict[FiniteFieldElement, int]:
-    """"""
+    """The function creates a list of baby steps.
+    For a given element (element: FiniteFieldElement), it returns the powers of the element (0 to the i-th power)
+    The data structure chosen to create the list is "dictionary" so to allow quick retrieval of the power index (hashtable).
+    The dictionary works as follows: the key contains the element and the value contains the power to which the element has been raised to.
+    """
+    ## The index value i is assumed positive and therefore we check
     if i < 0:
         raise ValueError(f"i: {i} must be positive")
     e1 = get_e1_element(element.field)
     power_list = {e1: 0}
+    #for i=0, we return the unit element
     if i == 0:
         return power_list
-
+    # Initializing the element as alpha and adding the first power
     alpha = element
     power_list[alpha] = 1
     j = 1
+    # Finding the rest of the powers and adding them to the list
     while j < i:
         alpha = alpha * element
         power_list[alpha] = j + 1
@@ -25,19 +32,40 @@ def calculate_baby_steps(element: FiniteFieldElement, i: int) -> Dict[FiniteFiel
 
 
 def baby_step_giant_step(generator: FiniteFieldElement, element: FiniteFieldElement):
+    """The function utilizes the Baby Step Giant Step (BSGS) algorithm.
+    The user inputs a generator (generator: FiniteFieldElement) and an arbitrary element (element: FiniteFieldElement) from the multiplicative group.
+    Since any element can be represented as generator^t, we wish to find the power to which the generator has been raised for which it equals the element.
+    The algorithm works as follows:
+    1. Generating baby_list: all the powers of the generator up to some value i - this list is in dictionary form to enable quick retrieval of the power index (hashtable).
+    2. Constructing the elements using giant steps element * generator^(-j m), such that the first element is just "element", the second is element * generator^(-m),
+    the third is element * generator^(-2m) and so on.
+    In each creating of en element, we check wheter it is found in the baby_list,
+    if it is not there, we find the next element in the sequence, by multiplying our current element by generator^(-m).
+    The algorithm stops when we get a "hit", an element created in the giant step is found on baby_list, for which we return i+j*m and conclude the algorithm
+    """
+    # The input finite field elements must belong to the same field:
     if generator.field != element.field:
-        raise ValueError("Cannot use different different finite fields")
+        raise ValueError("Cannot use different finite fields")
+    # p - the prime used in the field k
     p = generator.field.p
+    # q - number of field elements
     q = p ** generator.field.polyorder
     iterator = element
+    # m - the halting point of the algorithm
     m = math.ceil(math.sqrt(q))
+    # creating baby_list
     baby_list = calculate_baby_steps(generator, m - 1)
+    # initializing the construction of giant steps j=0
     j = 0
+    #giant_element - represent the giant steps between each giant element; For each progressive step we need to multiply by this element.
     giant_element = generator ** (-m)
+    #construting giant steps
     while j < m-1:
+        #checking if the current element is found in baby_list
         if iterator in baby_list:
             i = baby_list[iterator]
             return i + j * m
         iterator = iterator * giant_element
         j += 1
+    # If the algorithm fails for any reason, the function will produce an error
     raise RuntimeError(f"Failed running BSGS algorithm on generator: {generator}, and element {element}")

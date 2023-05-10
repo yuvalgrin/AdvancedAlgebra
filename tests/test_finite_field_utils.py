@@ -34,3 +34,5 @@ class TestFiniteFieldUtils(unittest.TestCase):
         extenstion_order = len(finite_field.f) - 1
         group_order = (prime ** (extenstion_order))-1
         self.assertEqual(gen.get_multiplicative_order(), group_order)
+
+

@@ -87,6 +87,18 @@ class TestFiniteFieldElement(unittest.TestCase):
         element_order = element.get_multiplicative_order()
         self.assertEqual(element_order, 16)
 
+## this run takes too long because this field is huge
+    # def test_multiplicative_order_3(self):
+    #     field = FiniteField(383, [378, 1, 0, 1])
+    #     element = FiniteFieldElement(field, [0, 1,0])
+    #     prime = field.p
+    #     extenstion_order = len(field.f) - 1
+    #     group_order = (prime ** (extenstion_order))-1
+    #     element_order = element.get_multiplicative_order()
+    #     self.assertEqual(group_order, element_order)
+
+
+
     def test_exp_equal_multiply(self):
         field = FiniteField(7, [3, 6, 1])
         element = FiniteFieldElement(field, [1, 3])
