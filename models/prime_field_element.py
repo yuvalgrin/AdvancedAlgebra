@@ -1,3 +1,4 @@
+from copy import deepcopy
 import math
 
 from utils.prime_utils import is_prime
@@ -33,6 +34,23 @@ class PrimeFieldElement:
             raise ValueError("Cannot divide by elements without an inverse")
         extended_euclides_inverse = pow(int(other), -1, int(self.p))
         return self * PrimeFieldElement(extended_euclides_inverse, self.p)
+
+    def __pow__(self, n):
+        """Raise by an exponent of n in the prime field p by using the existing multiplication logic"""
+        prime_element = deepcopy(self)
+        if prime_element == PrimeFieldElement(0, prime_element.p):
+            raise ValueError("prime element must be in the multiplicative group")
+        result_element = PrimeFieldElement(1, prime_element.p)
+        if prime_element == result_element: return prime_element
+        if n < 0:
+            prime_element = result_element / prime_element
+            n *= -1
+        while n != 0:
+            if n % 2 == 1:
+                result_element = prime_element * result_element
+            prime_element = prime_element * prime_element
+            n = n >> 1
+        return result_element
 
     def __repr__(self):
         return f"{self.a} (mod {self.p})"
