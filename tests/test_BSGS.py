@@ -49,15 +49,4 @@ class TestFiniteField(unittest.TestCase):
         gen = FiniteFieldElement(finite_field, [0, 1,0])
         check_element = FiniteFieldElement(finite_field, [229, 349, 291])
         bsgs = baby_step_giant_step(gen, check_element)
-        self.assertEqual(200000,bsgs)
-
-    # def test_bsgs5(self):
-    #     finite_field = FiniteField(7, [3, 6, 1])
-    #     gen = finite_field_element_generator(finite_field)
-    #     exp_element = FiniteFieldElement(finite_field, [1, 3])
-    #     self.assertEqual(exp_element.get_multiplicative_order(), 48)
-    #     self.assertEqual(gen, exp_element)
-    #
-    #     check_element = FiniteFieldElement(finite_field, [1, 1])
-    #     bsgs = BSGS(gen, check_element)
-    #     self.assertEqual(bsgs, 23)
+        self.assertEqual(200000, bsgs)

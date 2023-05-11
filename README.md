@@ -2,15 +2,11 @@
 Authors: Yuval Grinberg, Ron Cohen, Benjamin Ramati
 
 ### Project structure
-- algo
-  - algorithms and calculation logic like matrix embedding and BSGS
-- models
-  - data structure that represent the finite field and element
-- utils
-  - common util methods
-- tests
-  - unit tests that assert validity of the methods
-- main: run examples
+- **algo**: algorithms and calculation logic like matrix embedding and BSGS
+- **models**: data structure that represent the finite field and element
+- **utils**: common util methods
+- **tests**: unit tests that assert validity of the methods
+- **main**: run examples
 
 ### How to use the code?
 Create the respective data structures:
