@@ -8,17 +8,18 @@ from models.finite_field_element import FiniteFieldElement, get_e1_element
 def calculate_baby_steps(element: FiniteFieldElement, i: int) -> Dict[FiniteFieldElement, int]:
     """The function creates a list of baby steps.
     For a given element (element: FiniteFieldElement), it returns the powers of the element (0 to the i-th power)
-    The data structure chosen to create the list is "dictionary" so to allow quick retrieval of the power index (hashtable).
+    The data structure chosen to create the list is "dictionary" to allow quick retrieval of the power index (hashtable).
     The dictionary works as follows: the key contains the element and the value contains the power to which the element has been raised to.
     """
-    ## The index value i is assumed positive and therefore we check
     if i < 0:
         raise ValueError(f"i: {i} must be positive")
     e1 = get_e1_element(element.field)
     power_list = {e1: 0}
-    #for i=0, we return the unit element
+
+    # for i=0, we return the unit element
     if i == 0:
         return power_list
+
     # Initializing the element as alpha and adding the first power
     alpha = element
     power_list[alpha] = 1
@@ -46,26 +47,23 @@ def baby_step_giant_step(generator: FiniteFieldElement, element: FiniteFieldElem
     # The input finite field elements must belong to the same field:
     if generator.field != element.field:
         raise ValueError("Cannot use different finite fields")
-    # p - the prime used in the field k
-    p = generator.field.p
-    # q - number of field elements
-    q = p ** generator.field.polyorder
+    p = generator.field.p  # the prime used in the field k
+    q = p ** generator.field.polyorder  # number of field elements
     iterator = element
-    # m - the halting point of the algorithm
-    m = math.ceil(math.sqrt(q))
-    # creating baby_list
+    m = math.ceil(math.sqrt(q))  # the halting point of the algorithm
     baby_list = calculate_baby_steps(generator, m - 1)
-    # initializing the construction of giant steps j=0
-    j = 0
-    #giant_element - represent the giant steps between each giant element; For each progressive step we need to multiply by this element.
+    j = 0  # initializing the construction of giant steps j=0
+
+    # giant_element - represent the giant steps between each giant element;
+    # For each progressive step we need to multiply by this element.
     giant_element = generator ** (-m)
-    #construting giant steps
-    while j < m-1:
-        #checking if the current element is found in baby_list
+    # constructing giant steps
+    while j < m - 1:
+        # checking if the current element is found in baby_list
         if iterator in baby_list:
             i = baby_list[iterator]
             return i + j * m
         iterator = iterator * giant_element
         j += 1
-    # If the algorithm fails for any reason, the function will produce an error
+    # If the algorithm fails for any reason, the function will raise an error
     raise RuntimeError(f"Failed running BSGS algorithm on generator: {generator}, and element {element}")
