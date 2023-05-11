@@ -2,7 +2,7 @@ from typing import Dict
 
 import math
 
-from models.finite_field_element import FiniteFieldElement, get_e1_element
+from models.finite_field_element import FiniteFieldElement, get_e0_element, get_e1_element
 
 
 def calculate_baby_steps(element: FiniteFieldElement, i: int) -> Dict[FiniteFieldElement, int]:
@@ -47,6 +47,17 @@ def baby_step_giant_step(generator: FiniteFieldElement, element: FiniteFieldElem
     # The input finite field elements must belong to the same field:
     if generator.field != element.field:
         raise ValueError("Cannot use different finite fields")
+    e0 = get_e0_element(element.field)
+    e1 = get_e1_element(element.field)
+    # The input finite field elements belong to the multiplicative group:
+    if element == e0:
+        raise ValueError("Element must be in the multiplicative group")
+    if generator == e0:
+        raise ValueError("Generator must be in the multiplicative group")
+    # The input generator must be different than the unit element:
+    if generator == e1:
+        raise ValueError("Generator must be different than the unit element")
+
     p = generator.field.p  # the prime used in the field k
     q = p ** generator.field.polyorder  # number of field elements
     iterator = element
