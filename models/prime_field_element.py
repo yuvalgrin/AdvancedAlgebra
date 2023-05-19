@@ -34,6 +34,10 @@ class PrimeFieldElement:
         extended_euclides_inverse = pow(int(other), -1, int(self.p))
         return self * PrimeFieldElement(extended_euclides_inverse, self.p)
 
+    def __pow__(self, n):
+        """Raise by an exponent of n in the prime field p"""
+        return pow(int(self.a), n, int(self.p))
+
     def __repr__(self):
         return f"{self.a} (mod {self.p})"
 
