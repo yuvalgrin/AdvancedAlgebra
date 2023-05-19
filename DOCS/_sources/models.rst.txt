@@ -1,0 +1,37 @@
+models package
+==============
+
+Submodules
+----------
+
+models.finite\_field module
+---------------------------
+
+.. automodule:: models.finite_field
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+models.finite\_field\_element module
+------------------------------------
+
+.. automodule:: models.finite_field_element
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+models.prime\_field\_element module
+-----------------------------------
+
+.. automodule:: models.prime_field_element
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: models
+   :members:
+   :undoc-members:
+   :show-inheritance:

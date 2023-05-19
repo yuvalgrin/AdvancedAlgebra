@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>algo.generator_creation &mdash; Math 00.00.01 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Math
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">AdvancedAlgebra</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Math</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">algo.generator_creation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for algo.generator_creation</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span>
+
+<span class="kn">from</span> <span class="nn">models.finite_field</span> <span class="kn">import</span> <span class="n">FiniteField</span>
+<span class="kn">from</span> <span class="nn">models.finite_field_element</span> <span class="kn">import</span> <span class="n">get_e0_element</span><span class="p">,</span> <span class="n">get_e1_element</span><span class="p">,</span> <span class="n">FiniteFieldElement</span>
+<span class="kn">from</span> <span class="nn">models.prime_field_element</span> <span class="kn">import</span> <span class="n">PrimeFieldElement</span>
+
+
+<div class="viewcode-block" id="find_generator_for_field"><a class="viewcode-back" href="../../algo.html#algo.generator_creation.find_generator_for_field">[docs]</a><span class="k">def</span> <span class="nf">find_generator_for_field</span><span class="p">(</span><span class="n">field</span><span class="p">:</span> <span class="n">FiniteField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FiniteFieldElement</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find a generator for the finite field.</span>
+<span class="sd">    Create a set of all the elements in the field,</span>
+<span class="sd">    Iterate over the elements:</span>
+<span class="sd">        - calculate the multiplicative order of the element,</span>
+<span class="sd">        - If it&#39;s multiplicative order == p^n -1 then it&#39;s the generator -&gt; return the element</span>
+<span class="sd">        - Else remove it and its multiplications from the set</span>
+<span class="sd">        (The multiplications of an element which is not the generator cannot be a generator)&quot;&quot;&quot;</span>
+
+    <span class="n">field_order</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">p</span> <span class="o">**</span> <span class="n">field</span><span class="o">.</span><span class="n">polyorder</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">floor_field_order</span> <span class="o">=</span> <span class="n">field_order</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="c1"># o(e0) = inf, o(e1) = 1</span>
+    <span class="n">e0</span> <span class="o">=</span> <span class="n">get_e0_element</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">get_e1_element</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+
+    <span class="n">extended_field_set</span><span class="p">:</span> <span class="n">Set</span> <span class="o">=</span> <span class="n">create_set_of_all_elements_in_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+    <span class="n">extended_field_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">e0</span><span class="p">)</span>
+    <span class="n">extended_field_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">extended_field_set</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="n">extended_field_set</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">element</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">alpha</span> <span class="o">!=</span> <span class="n">e1</span><span class="p">:</span>
+            <span class="n">o</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">alpha</span> <span class="o">*=</span> <span class="n">element</span>
+            <span class="n">extended_field_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">o</span> <span class="o">&gt;</span> <span class="n">floor_field_order</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">element</span>
+    <span class="k">return</span> <span class="n">extended_field_set</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="create_set_of_all_elements_in_field"><a class="viewcode-back" href="../../algo.html#algo.generator_creation.create_set_of_all_elements_in_field">[docs]</a><span class="k">def</span> <span class="nf">create_set_of_all_elements_in_field</span><span class="p">(</span><span class="n">field</span><span class="p">:</span> <span class="n">FiniteField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">FiniteFieldElement</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a set of all the possible finite field elements.</span>
+<span class="sd">    Use the cartesian multiplication of the prime field elements and add them to the set.&quot;&quot;&quot;</span>
+    <span class="n">prime_field_elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">PrimeFieldElement</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">p</span><span class="p">)]</span>
+    <span class="n">all_coeffs_combinations</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="n">prime_field_elements</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">polyorder</span><span class="p">)</span>
+    <span class="n">all_elements_in_field</span> <span class="o">=</span> <span class="p">{</span><span class="n">FiniteFieldElement</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">)</span> <span class="k">for</span> <span class="n">coeffs</span> <span class="ow">in</span> <span class="n">all_coeffs_combinations</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">all_elements_in_field</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chandler Bing.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

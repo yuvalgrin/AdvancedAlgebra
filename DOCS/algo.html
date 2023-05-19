@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>algo package &mdash; Advanced Algebra 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main module" href="main.html" />
+    <link rel="prev" title="AdvancedAlgebra" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Advanced Algebra
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AdvancedAlgebra</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">algo package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-algo.BSGS">algo.BSGS module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#algo.BSGS.baby_step_giant_step"><code class="docutils literal notranslate"><span class="pre">baby_step_giant_step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.BSGS.calculate_baby_steps"><code class="docutils literal notranslate"><span class="pre">calculate_baby_steps()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.BSGS.validate_inputs"><code class="docutils literal notranslate"><span class="pre">validate_inputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-algo.generator_creation">algo.generator_creation module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#algo.generator_creation.create_set_of_all_elements_in_field"><code class="docutils literal notranslate"><span class="pre">create_set_of_all_elements_in_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.generator_creation.find_generator_for_field"><code class="docutils literal notranslate"><span class="pre">find_generator_for_field()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-algo.matrix_convertion">algo.matrix_convertion module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#algo.matrix_convertion.convert_matrix_to_coeffs"><code class="docutils literal notranslate"><span class="pre">convert_matrix_to_coeffs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.matrix_convertion.create_matrix"><code class="docutils literal notranslate"><span class="pre">create_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.matrix_convertion.inverse_matrix"><code class="docutils literal notranslate"><span class="pre">inverse_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-algo.polynom_ops">algo.polynom_ops module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#algo.polynom_ops.modulu_polynom"><code class="docutils literal notranslate"><span class="pre">modulu_polynom()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.polynom_ops.polynom_add"><code class="docutils literal notranslate"><span class="pre">polynom_add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.polynom_ops.polynom_mul"><code class="docutils literal notranslate"><span class="pre">polynom_mul()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.polynom_ops.polynom_neg"><code class="docutils literal notranslate"><span class="pre">polynom_neg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.polynom_ops.polynom_sub"><code class="docutils literal notranslate"><span class="pre">polynom_sub()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#algo.polynom_ops.reverse"><code class="docutils literal notranslate"><span class="pre">reverse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-algo">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Advanced Algebra</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">AdvancedAlgebra</a></li>
+      <li class="breadcrumb-item active">algo package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/algo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="algo-package">
+<h1>algo package<a class="headerlink" href="#algo-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-algo.BSGS">
+<span id="algo-bsgs-module"></span><h2>algo.BSGS module<a class="headerlink" href="#module-algo.BSGS" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.BSGS.baby_step_giant_step">
+<span class="sig-prename descclassname"><span class="pre">algo.BSGS.</span></span><span class="sig-name descname"><span class="pre">baby_step_giant_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/BSGS.html#baby_step_giant_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.BSGS.baby_step_giant_step" title="Permalink to this definition"></a></dt>
+<dd><p>The function utilizes the Baby Step Giant Step (BSGS) algorithm.
+The user inputs a generator (generator: FiniteFieldElement) and an arbitrary element (element: FiniteFieldElement) from the multiplicative group.
+Since any element can be represented as generator^t, we wish to find the power to which the generator has been raised for which it equals the element.</p>
+<p>The algorithm works as follows:
+1. Generating baby_list: all the powers of the generator up to some value i - this list is in dictionary form to enable quick retrieval of the power index (hashtable).
+2. Constructing the elements using giant steps element * generator^(-j m), such that the first element is just “element”, the second is element * generator^(-m),
+the third is element * generator^(-2m) and so on.</p>
+<p>In each creation of an element, we check whether it is found in the baby_list,
+if it is not there, we find the next element in the sequence, by multiplying our current element by generator^(-m).
+The algorithm stops when we get a “hit”, an element created in the giant step is found on baby_list, for which we return i+j*m and conclude the algorithm</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.BSGS.calculate_baby_steps">
+<span class="sig-prename descclassname"><span class="pre">algo.BSGS.</span></span><span class="sig-name descname"><span class="pre">calculate_baby_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/algo/BSGS.html#calculate_baby_steps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.BSGS.calculate_baby_steps" title="Permalink to this definition"></a></dt>
+<dd><p>The function creates a list of baby steps.
+For a given element (element: FiniteFieldElement), it returns the powers of the element (0 to the i-th power)
+The data structure chosen to create the list is “dictionary” to allow quick retrieval of the power index (hashtable).
+The dictionary works as follows: the key contains the element and the value contains the power to which the element has been raised to.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.BSGS.validate_inputs">
+<span class="sig-prename descclassname"><span class="pre">algo.BSGS.</span></span><span class="sig-name descname"><span class="pre">validate_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/BSGS.html#validate_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.BSGS.validate_inputs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-algo.generator_creation">
+<span id="algo-generator-creation-module"></span><h2>algo.generator_creation module<a class="headerlink" href="#module-algo.generator_creation" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.generator_creation.create_set_of_all_elements_in_field">
+<span class="sig-prename descclassname"><span class="pre">algo.generator_creation.</span></span><span class="sig-name descname"><span class="pre">create_set_of_all_elements_in_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field.FiniteField" title="models.finite_field.FiniteField"><span class="pre">FiniteField</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/algo/generator_creation.html#create_set_of_all_elements_in_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.generator_creation.create_set_of_all_elements_in_field" title="Permalink to this definition"></a></dt>
+<dd><p>Create a set of all the possible finite field elements.
+Use the cartesian multiplication of the prime field elements and add them to the set.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.generator_creation.find_generator_for_field">
+<span class="sig-prename descclassname"><span class="pre">algo.generator_creation.</span></span><span class="sig-name descname"><span class="pre">find_generator_for_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#models.finite_field.FiniteField" title="models.finite_field.FiniteField"><span class="pre">FiniteField</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="models.html#models.finite_field_element.FiniteFieldElement" title="models.finite_field_element.FiniteFieldElement"><span class="pre">FiniteFieldElement</span></a></span></span><a class="reference internal" href="_modules/algo/generator_creation.html#find_generator_for_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.generator_creation.find_generator_for_field" title="Permalink to this definition"></a></dt>
+<dd><p>Find a generator for the finite field.
+Create a set of all the elements in the field,
+Iterate over the elements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>calculate the multiplicative order of the element,</p></li>
+<li><p>If it’s multiplicative order == p^n -1 then it’s the generator -&gt; return the element</p></li>
+<li><p>Else remove it and its multiplications from the set</p></li>
+</ul>
+<p>(The multiplications of an element which is not the generator cannot be a generator)</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="module-algo.matrix_convertion">
+<span id="algo-matrix-convertion-module"></span><h2>algo.matrix_convertion module<a class="headerlink" href="#module-algo.matrix_convertion" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.matrix_convertion.convert_matrix_to_coeffs">
+<span class="sig-prename descclassname"><span class="pre">algo.matrix_convertion.</span></span><span class="sig-name descname"><span class="pre">convert_matrix_to_coeffs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/matrix_convertion.html#convert_matrix_to_coeffs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.matrix_convertion.convert_matrix_to_coeffs" title="Permalink to this definition"></a></dt>
+<dd><p>Get the relevant line that represents the coefficients</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.matrix_convertion.create_matrix">
+<span class="sig-prename descclassname"><span class="pre">algo.matrix_convertion.</span></span><span class="sig-name descname"><span class="pre">create_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polynom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction_polynom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/matrix_convertion.html#create_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.matrix_convertion.create_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Multiply the basis of l that’s represented by the unity matrix, with the polynom
+we are trying to represent. Then reduce monomials with high degree using modulu_polynom method</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.matrix_convertion.inverse_matrix">
+<span class="sig-prename descclassname"><span class="pre">algo.matrix_convertion.</span></span><span class="sig-name descname"><span class="pre">inverse_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/matrix_convertion.html#inverse_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.matrix_convertion.inverse_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Use numpy inverse matrix method, and multiply by the determinant in order to get the adj matrix.
+Divide again by the determinant but with our division inside the prime field.</p>
+</dd></dl>
+
+</section>
+<section id="module-algo.polynom_ops">
+<span id="algo-polynom-ops-module"></span><h2>algo.polynom_ops module<a class="headerlink" href="#module-algo.polynom_ops" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.polynom_ops.modulu_polynom">
+<span class="sig-prename descclassname"><span class="pre">algo.polynom_ops.</span></span><span class="sig-name descname"><span class="pre">modulu_polynom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_polynom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction_polynom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/polynom_ops.html#modulu_polynom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.polynom_ops.modulu_polynom" title="Permalink to this definition"></a></dt>
+<dd><p>Modulu a polynom with a irreducible polynom.
+If the rank(polynom) &gt; rank(reduction polynom):</p>
+<blockquote>
+<div><p># example rank(x^3 + x) &gt; rank(x^2 + 2)
+Reduce every x^n | n&gt;r, where r = rank(reduction polynom), by representing it as x^r * x^(n-r).
+* This is helps us because we know how to reduce x^r.
+Finally, we get somthing like x^(n-r) * (-a_r*x^(r-1)-…- a_1*x -a_0)</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Reduce x^r: reduction polynom = 0(modulo reduction polynom) = x^r + a_r * x^(r-1) + … + a_1 * x^0</p></li>
+</ul>
+<p>Thus, x^r = - (a_r * x^(r-1) + … + a_1 * x^0) (modulo reduction polynom)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.polynom_ops.polynom_add">
+<span class="sig-prename descclassname"><span class="pre">algo.polynom_ops.</span></span><span class="sig-name descname"><span class="pre">polynom_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_reversed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/polynom_ops.html#polynom_add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.polynom_ops.polynom_add" title="Permalink to this definition"></a></dt>
+<dd><p>Add two polynoms element by element</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.polynom_ops.polynom_mul">
+<span class="sig-prename descclassname"><span class="pre">algo.polynom_ops.</span></span><span class="sig-name descname"><span class="pre">polynom_mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/polynom_ops.html#polynom_mul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.polynom_ops.polynom_mul" title="Permalink to this definition"></a></dt>
+<dd><p>Multiply two polynoms element by element</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.polynom_ops.polynom_neg">
+<span class="sig-prename descclassname"><span class="pre">algo.polynom_ops.</span></span><span class="sig-name descname"><span class="pre">polynom_neg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/polynom_ops.html#polynom_neg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.polynom_ops.polynom_neg" title="Permalink to this definition"></a></dt>
+<dd><p>Multiply a polynom by -1</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.polynom_ops.polynom_sub">
+<span class="sig-prename descclassname"><span class="pre">algo.polynom_ops.</span></span><span class="sig-name descname"><span class="pre">polynom_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_reversed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/polynom_ops.html#polynom_sub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.polynom_ops.polynom_sub" title="Permalink to this definition"></a></dt>
+<dd><p>Subtraction of two polynoms (uses the addition and minus operations)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algo.polynom_ops.reverse">
+<span class="sig-prename descclassname"><span class="pre">algo.polynom_ops.</span></span><span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/algo/polynom_ops.html#reverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#algo.polynom_ops.reverse" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-algo">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-algo" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="AdvancedAlgebra" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yuval, Ron, Benjamin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

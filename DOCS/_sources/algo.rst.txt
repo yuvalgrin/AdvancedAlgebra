@@ -1,0 +1,45 @@
+algo package
+============
+
+Submodules
+----------
+
+algo.BSGS module
+----------------
+
+.. automodule:: algo.BSGS
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+algo.generator\_creation module
+-------------------------------
+
+.. automodule:: algo.generator_creation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+algo.matrix\_convertion module
+------------------------------
+
+.. automodule:: algo.matrix_convertion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+algo.polynom\_ops module
+------------------------
+
+.. automodule:: algo.polynom_ops
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: algo
+   :members:
+   :undoc-members:
+   :show-inheritance:
