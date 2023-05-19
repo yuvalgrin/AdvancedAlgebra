@@ -36,7 +36,7 @@ class PrimeFieldElement:
 
     def __pow__(self, n):
         """Raise by an exponent of n in the prime field p"""
-        return pow(int(self.a), n, int(self.p))
+        return PrimeFieldElement(pow(int(self.a), n, int(self.p)), self.p)
 
     def __repr__(self):
         return f"{self.a} (mod {self.p})"
